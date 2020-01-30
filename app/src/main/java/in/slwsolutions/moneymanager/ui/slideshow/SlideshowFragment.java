@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import `in`.slwsolutions.moneymanager.R;
+import in.slwsolutions.moneymanager.R;
 
 public class SlideshowFragment extends Fragment {
 
