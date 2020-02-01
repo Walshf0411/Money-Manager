@@ -22,14 +22,8 @@ public class DuesFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         duesViewModel =
                 ViewModelProviders.of(this).get(DuesViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        duesViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        View root = inflater.inflate(R.layout.fragment_dues, container, false);
+
         return root;
     }
 }

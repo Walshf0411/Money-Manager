@@ -22,7 +22,7 @@ public class ExpensesFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         expensesViewModel =
                 ViewModelProviders.of(this).get(ExpensesViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        View root = inflater.inflate(R.layout.fragment_expenses, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
         expensesViewModel.getText().observe(this, new Observer<String>() {
             @Override

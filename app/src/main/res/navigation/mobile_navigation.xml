@@ -9,24 +9,24 @@
         android:id="@+id/nav_dues"
         android:name="in.slwsolutions.moneymanager.ui.dues.DuesFragment"
         android:label="@string/menu_dues"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_dues" />
 
     <fragment
         android:id="@+id/nav_expenses"
         android:name="in.slwsolutions.moneymanager.ui.expenses.ExpensesFragment"
         android:label="@string/menu_expenses"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_expenses" />
 
     <fragment
         android:id="@+id/nav_history"
         android:name="in.slwsolutions.moneymanager.ui.history.HistoryFragment"
         android:label="@string/menu_history"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/nav_settings"
         android:name="in.slwsolutions.moneymanager.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_tools" />
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>
