@@ -8,4 +8,6 @@
 
     <dimen name="item_margin_horizontal">8dp</dimen>
     <dimen name="item_margin_vertical">8dp</dimen>
+    <dimen name="item_header_size">18sp</dimen>
+    <dimen name="item_amount_size">32sp</dimen>
 </resources>

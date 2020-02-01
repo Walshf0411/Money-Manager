@@ -10,10 +10,15 @@ public class Transaction {
 
     public String contactLookupKey;
 
-    public float amount;
+    public double amount;
 
     public boolean debit;
 
     public long timestamp;
 
+    public Transaction(String contactLookupKey, double amount, boolean debit) {
+        this.contactLookupKey = contactLookupKey;
+        this.amount = amount;
+        this.debit = debit;
+    }
 }

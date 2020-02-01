@@ -1,19 +1,32 @@
 package in.slwsolutions.moneymanager.ui.dues;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.List;
+
+import in.slwsolutions.moneymanager.database.Transaction;
+import in.slwsolutions.moneymanager.repositories.TransactionRepository;
 
 public class DuesViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private TransactionRepository transactionRepository;
 
-    public DuesViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+    private LiveData<List<Transaction>> transactions;
+
+    public DuesViewModel(Context context) {
+        super();
+        transactionRepository = new TransactionRepository(context);
+        transactions = transactionRepository.getTransactions();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    LiveData<List<Transaction>> getAllWords() {
+        return transactions;
+    }
+
+    public void insert(Transaction transaction) {
+        transactionRepository.insert(transaction);
     }
 }
