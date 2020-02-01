@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/nav_dues"
-        android:name="in.slwsolutions.moneymanager.ui.home.HomeFragment"
+        android:name="in.slwsolutions.moneymanager.ui.dues.DuesFragment"
         android:label="@string/menu_dues"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_expenses"
-        android:name="in.slwsolutions.moneymanager.ui.gallery.GalleryFragment"
+        android:name="in.slwsolutions.moneymanager.ui.expenses.ExpensesFragment"
         android:label="@string/menu_expenses"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_history"
-        android:name="in.slwsolutions.moneymanager.ui.slideshow.SlideshowFragment"
+        android:name="in.slwsolutions.moneymanager.ui.history.HistoryFragment"
         android:label="@string/menu_history"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="in.slwsolutions.moneymanager.ui.tools.ToolsFragment"
+        android:name="in.slwsolutions.moneymanager.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_tools" />
 

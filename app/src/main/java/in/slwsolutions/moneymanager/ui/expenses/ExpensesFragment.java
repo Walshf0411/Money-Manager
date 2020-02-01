@@ -1,4 +1,4 @@
-package in.slwsolutions.moneymanager.ui.share;
+package in.slwsolutions.moneymanager.ui.expenses;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import in.slwsolutions.moneymanager.R;
 
-public class ShareFragment extends Fragment {
+public class ExpensesFragment extends Fragment {
 
-    private ShareViewModel shareViewModel;
+    private ExpensesViewModel expensesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        shareViewModel =
-                ViewModelProviders.of(this).get(ShareViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_share, container, false);
-        final TextView textView = root.findViewById(R.id.text_share);
-        shareViewModel.getText().observe(this, new Observer<String>() {
+        expensesViewModel =
+                ViewModelProviders.of(this).get(ExpensesViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        final TextView textView = root.findViewById(R.id.text_gallery);
+        expensesViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
