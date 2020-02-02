@@ -8,26 +8,24 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import in.slwsolutions.moneymanager.database.Database;
+
 
 public class FetchTransactionsWorker extends Worker {
     Context context;
+    WorkerParameters workerParams;
 
     public FetchTransactionsWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
+        this.workerParams = workerParams;
     }
 
     @NonNull
     @Override
     public Result doWork() {
-
-//        Transaction transaction = new Transaction("asdad", 45.0, true);
-//
-//        db.transactionDao().insert(transaction);
-
-//        List<Transaction> transactions =  db.transactionDao().getAllTransactions();
-
-
+        Database.getDatabase(context).transactionDao()
+                .getTransactionsByLookupKey(workerParams.getInputData().getString("contact_lookup_key"));
         return Result.success();
     }
 }

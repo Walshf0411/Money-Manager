@@ -35,4 +35,8 @@ public class DuesViewModel extends AndroidViewModel {
     public void deleteAll() {
         transactionRepository.deleteAll();
     }
+
+    public List<Transaction> getTransactionsByKey(String key) {
+        return transactionRepository.getTransactionsByKey(key);
+    }
 }

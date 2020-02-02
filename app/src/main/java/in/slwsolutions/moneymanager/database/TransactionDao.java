@@ -15,11 +15,14 @@ public interface TransactionDao {
     @Insert
     void insertAll(Transaction... transactions);
 
-    @Query("Select id, contactLookupKey, contactName, contactNumber, " +
+    @Query("SELECT id, contactLookupKey, contactName, contactNumber, " +
             "contactImageURI, amount, lent, timestamp, sum(amount)" +
-            "from `transaction` group by contactLookupKey")
+            "FROM `transaction` GROUP BY contactLookupKey")
     LiveData<List<Transaction>> getAllTransactions();
 
     @Query("DELETE FROM `transaction`")
     void deleteAll();
+
+    @Query("SELECT * FROM `transaction` WHERE contactLookupKey=:key ORDER BY timestamp DESC")
+    List<Transaction> getTransactionsByLookupKey(String key);
 }
