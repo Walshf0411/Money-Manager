@@ -10,4 +10,8 @@
     <dimen name="item_margin_vertical">4dp</dimen>
     <dimen name="item_header_size">18sp</dimen>
     <dimen name="item_amount_size">32sp</dimen>
+
+    <dimen name="detail_contact_name_size">32sp</dimen>
+    <dimen name="detail_contact_phone_number_size">24sp</dimen>
+    <dimen name="detail_date_size">18sp</dimen>
 </resources>

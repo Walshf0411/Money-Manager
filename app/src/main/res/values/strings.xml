@@ -16,9 +16,9 @@
     <!--  Add new Due page labels  -->
     <string name="contact_label">Select Contact</string>
     <string name="amount_label">Enter amount</string>
-    <string name="lent_text">Borrowed?</string>
+    <string name="lent_text">Lent?</string>
     <string name="lent_help_text">Check this option if you have owed money to someone.</string>
-    <string name="lend_label">Lend</string>
+    <string name="lend_label">Lent</string>
     <string name="date_label">Date(Optional)</string>
     <string name="notes_label">Notes(optional)</string>
     <string name="submit_label">Submit</string>

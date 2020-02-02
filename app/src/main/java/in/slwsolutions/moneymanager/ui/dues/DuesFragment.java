@@ -1,9 +1,13 @@
 package in.slwsolutions.moneymanager.ui.dues;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -15,6 +19,8 @@ import android.widget.Button;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,9 +36,11 @@ import in.slwsolutions.moneymanager.R;
 import in.slwsolutions.moneymanager.database.Transaction;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class DuesFragment extends Fragment {
 
+    private static final int PERMISSION_REQUEST_CONTACT = 7979;
     private DuesViewModel duesViewModel;
     private RecyclerView recyclerView;
     private DuesRecyclerViewAdapter adapter;
@@ -48,6 +56,8 @@ public class DuesFragment extends Fragment {
         duesViewModel =
                 ViewModelProviders.of(this).get(DuesViewModel.class);
         root = inflater.inflate(R.layout.fragment_dues, container, false);
+
+        requestContactsPermission();
 
         addDues = root.findViewById(R.id.add_dues);
         addDues.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +85,20 @@ public class DuesFragment extends Fragment {
         adapter = new DuesRecyclerViewAdapter(getContext());
         adapter.setTransactions(duesViewModel.getTransactions().getValue());
         recyclerView.setAdapter(adapter);
+
+        adapter.setITemClickListener(
+                new DuesRecyclerViewAdapter.DuesRecyclerViewItemClickListener() {
+                    @Override
+                    public void onClick(Transaction transaction) {
+                        Intent intent = new Intent(getContext(), DueDetailActivity.class);
+                        intent.putExtra("contact_lookup_key", transaction.contactLookupKey);
+                        intent.putExtra("contact_name", transaction.contactName);
+                        intent.putExtra("contact_number", transaction.contactNumber);
+                        intent.putExtra("contact_image_uri", transaction.contactImageURI);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     private void createAlertDialogForm() {
@@ -111,8 +135,7 @@ public class DuesFragment extends Fragment {
                                           if (isFormValid()) {
                                               // form valid add it to the database
                                               addToDatabase();
-                                          } else {
-                                                dialog.dismiss();
+                                              dialog.dismiss();
                                           }
                                       }
                                   }
@@ -125,7 +148,7 @@ public class DuesFragment extends Fragment {
                 lookupKey,
                 name,
                 number,
-                Long.valueOf(photoUri),
+                photoUri,
                 Double.valueOf(amount.getEditText().getText().toString()),
                 lentChecked);
 
@@ -210,6 +233,46 @@ public class DuesFragment extends Fragment {
             contactName.getEditText().setText(
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
             );
+            contactName.setError("");
+        }
+    }
+
+    private void requestContactsPermission() {
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_CONTACTS) != PERMISSION_GRANTED) {
+            // Permission not yet granted
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.READ_CONTACTS)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Contacts access needed");
+                builder.setPositiveButton(android.R.string.ok, null);
+                builder.setMessage("please confirm Contacts access");//TODO put real question
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @TargetApi(Build.VERSION_CODES.M)
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        requestPermissions(
+                                new String[]
+                                        {Manifest.permission.READ_CONTACTS}
+                                , PERMISSION_REQUEST_CONTACT);
+                    }
+                });
+                builder.show();
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        PERMISSION_REQUEST_CONTACT);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
         }
     }
 }

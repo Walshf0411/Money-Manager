@@ -1,5 +1,6 @@
 package in.slwsolutions.moneymanager.database;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -19,7 +20,7 @@ public class Transaction {
     public String contactNumber;
 
     // ContactsContract.CommonDataKinds.Photo
-    public long contactImageURI;
+    public String contactImageURI;
 
     // amount that is being borrowed or lent
     public double amount;
@@ -33,12 +34,21 @@ public class Transaction {
     * */
     public long timestamp;
 
-    public Transaction(String contactLookupKey, String contactName, String contactNumber, long contactImageURI, double amount, boolean lent) {
+    // extra column to be used by group by clause
+    @ColumnInfo(name = "sum(amount)")
+    public double amountAggregate;
+
+    public Transaction(String contactLookupKey, String contactName, String contactNumber, String contactImageURI, double amount, boolean lent) {
         this.contactLookupKey = contactLookupKey;
         this.contactName = contactName;
         this.contactNumber = contactNumber;
         this.contactImageURI = contactImageURI;
-        this.amount = amount;
+
+        if (lent)
+            this.amount = amount;
+        else
+            this.amount = -amount;
+
         this.lent = lent;
     }
 
