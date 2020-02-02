@@ -17,4 +17,7 @@ public interface TransactionDao {
 
     @Query("Select * from `transaction`")
     LiveData<List<Transaction>> getAllTransactions();
+
+    @Query("DELETE FROM `transaction`")
+    void deleteAll();
 }

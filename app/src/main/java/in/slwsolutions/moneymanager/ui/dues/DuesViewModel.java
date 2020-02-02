@@ -1,7 +1,9 @@
 package in.slwsolutions.moneymanager.ui.dues;
 
+import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -10,23 +12,27 @@ import java.util.List;
 import in.slwsolutions.moneymanager.database.Transaction;
 import in.slwsolutions.moneymanager.repositories.TransactionRepository;
 
-public class DuesViewModel extends ViewModel {
+public class DuesViewModel extends AndroidViewModel {
 
     private TransactionRepository transactionRepository;
 
     private LiveData<List<Transaction>> transactions;
 
-    public DuesViewModel(Context context) {
-        super();
-        transactionRepository = new TransactionRepository(context);
+    public DuesViewModel(Application application) {
+        super(application);
+        transactionRepository = new TransactionRepository(application);
         transactions = transactionRepository.getTransactions();
     }
 
-    LiveData<List<Transaction>> getAllWords() {
+    public LiveData<List<Transaction>> getTransactions() {
         return transactions;
     }
 
     public void insert(Transaction transaction) {
         transactionRepository.insert(transaction);
+    }
+
+    public void deleteAll() {
+        transactionRepository.deleteAll();
     }
 }

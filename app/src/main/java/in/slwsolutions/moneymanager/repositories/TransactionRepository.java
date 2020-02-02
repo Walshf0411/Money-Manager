@@ -32,4 +32,20 @@ public class TransactionRepository {
             }
         });
     }
+
+    public void deleteAll() {
+        Database.databaseWriteExecutor.execute(new Runnable(){
+            public void run() {
+                transactionDao.deleteAll();
+            }
+        });
+    }
+
+    public void insertAll(final Transaction... transactions) {
+        Database.databaseWriteExecutor.execute(new Runnable(){
+            public void run() {
+                transactionDao.insertAll(transactions);
+            }
+        });
+    }
 }

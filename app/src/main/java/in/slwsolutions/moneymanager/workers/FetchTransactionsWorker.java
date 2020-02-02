@@ -8,10 +8,6 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import java.util.List;
-
-import in.slwsolutions.moneymanager.database.Database;
-import in.slwsolutions.moneymanager.database.Transaction;
 
 public class FetchTransactionsWorker extends Worker {
     Context context;
@@ -24,14 +20,12 @@ public class FetchTransactionsWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Database db = Room.databaseBuilder(context,
-                Database.class, "database-name").build();
 
 //        Transaction transaction = new Transaction("asdad", 45.0, true);
 //
 //        db.transactionDao().insert(transaction);
 
-        List<Transaction> transactions =  db.transactionDao().getAllTransactions();
+//        List<Transaction> transactions =  db.transactionDao().getAllTransactions();
 
 
         return Result.success();

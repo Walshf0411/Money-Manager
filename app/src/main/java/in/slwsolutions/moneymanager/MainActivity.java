@@ -21,6 +21,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
+import java.util.Arrays;
+
+import in.slwsolutions.moneymanager.database.Database;
+import in.slwsolutions.moneymanager.database.Transaction;
+import in.slwsolutions.moneymanager.repositories.TransactionRepository;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -31,14 +37,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        final TransactionRepository repo = new TransactionRepository(this);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                repo.deleteAll();
+//                Transaction transaction = new Transaction("asdasd", 130.2, true);
+//                Transaction transaction1 = new Transaction("asd", 132.2, true);
+//                Transaction transaction2 = new Transaction("asdadasd", 121, false);
+//                repo.insertAll(transaction, transaction1, transaction2);
+//            }
+//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
