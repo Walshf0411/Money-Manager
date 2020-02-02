@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity
 public class Transaction {
     @PrimaryKey(autoGenerate = true)
@@ -32,7 +34,7 @@ public class Transaction {
     * if the user chooses not to enter a date the date will be automatically
     * applied to the current date
     * */
-    public long timestamp;
+    public Date timestamp;
 
     // extra column to be used by group by clause
     @ColumnInfo(name = "sum(amount)")

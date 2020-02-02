@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@androidx.room.Database(entities = {Transaction.class}, version = 7)
+@androidx.room.Database(entities = {Transaction.class}, version = 8)
 @TypeConverters({DateConverter.class})
 public abstract class Database extends RoomDatabase {
     public abstract TransactionDao transactionDao();

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -48,14 +49,14 @@ public class DuesRecyclerViewAdapter extends RecyclerView.Adapter<DuesRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DuesRecyclerViewAdapter.DuesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final DuesRecyclerViewAdapter.DuesViewHolder holder, final int position) {
         if (transactions != null) {
             final Transaction transaction = transactions.get(position);
             holder.itemView.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            activityCommander.onClick(transaction);
+                            activityCommander.onClick(position, transaction, holder.profileImage);
                         }
                     }
             );
@@ -65,6 +66,7 @@ public class DuesRecyclerViewAdapter extends RecyclerView.Adapter<DuesRecyclerVi
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(transaction.contactImageURI));
                     holder.profileImage.setImageBitmap(bitmap);
+                    ViewCompat.setTransitionName(holder.profileImage, transaction.contactName);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -103,6 +105,6 @@ public class DuesRecyclerViewAdapter extends RecyclerView.Adapter<DuesRecyclerVi
     }
 
     public interface DuesRecyclerViewItemClickListener{
-        void onClick(Transaction transaction);
+        void onClick(int position, Transaction transaction, ImageView profileImage);
     }
 }

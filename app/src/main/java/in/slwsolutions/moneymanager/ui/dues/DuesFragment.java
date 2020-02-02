@@ -16,11 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -89,13 +92,19 @@ public class DuesFragment extends Fragment {
         adapter.setITemClickListener(
                 new DuesRecyclerViewAdapter.DuesRecyclerViewItemClickListener() {
                     @Override
-                    public void onClick(Transaction transaction) {
+                    public void onClick(int position, Transaction transaction, ImageView profileImage) {
                         Intent intent = new Intent(getContext(), DueDetailActivity.class);
                         intent.putExtra("contact_lookup_key", transaction.contactLookupKey);
                         intent.putExtra("contact_name", transaction.contactName);
                         intent.putExtra("contact_number", transaction.contactNumber);
                         intent.putExtra("contact_image_uri", transaction.contactImageURI);
-                        startActivity(intent);
+
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                getActivity(),
+                                profileImage,
+                                ViewCompat.getTransitionName(profileImage));
+
+                        startActivity(intent, options.toBundle());
                     }
                 }
         );
