@@ -28,4 +28,6 @@
     <string name="contact_name_error">Contact name is required</string>
     <string name="amount_error">Amount is required</string>
     <string name="amount_less_than_zero_error">Amount should be greater than zero</string>
+
+    <string name="Rs">\u20B9</string>
 </resources>

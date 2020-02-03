@@ -73,11 +73,11 @@ public class DuesRecyclerViewAdapter extends RecyclerView.Adapter<DuesRecyclerVi
             }
             if (transaction.amountAggregate < 0) {
                 // The User is in due by the contact
-                holder.amount.setText(String.valueOf(transaction.amountAggregate));
+                holder.amount.setText("-" + context.getString(R.string.Rs) + String.valueOf(-transaction.amountAggregate));
                 holder.amount.setTextColor(context.getResources().getColor(android.R.color.holo_red_light));
             } else {
                 // The User has money owed to the contact
-                holder.amount.setText("+" + String.valueOf(transaction.amountAggregate));
+                holder.amount.setText("+"+ context.getString(R.string.Rs) + String.valueOf(transaction.amountAggregate));
                 holder.amount.setTextColor(context.getResources().getColor(android.R.color.holo_green_light));
             }
         }

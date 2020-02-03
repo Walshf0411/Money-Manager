@@ -1,5 +1,6 @@
 package in.slwsolutions.moneymanager.database;
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -30,6 +31,9 @@ public class Transaction {
     // flag to indicate whether money is borrowed or lent
     public boolean lent;
 
+    @Nullable
+    public String notes;
+
     /*
     * if the user chooses not to enter a date the date will be automatically
     * applied to the current date
@@ -39,6 +43,10 @@ public class Transaction {
     // extra column to be used by group by clause
     @ColumnInfo(name = "sum(amount)")
     public double amountAggregate;
+
+    public void setNotes(@Nullable String notes) {
+        this.notes = notes;
+    }
 
     public Transaction(String contactLookupKey, String contactName, String contactNumber, String contactImageURI, double amount, boolean lent) {
         this.contactLookupKey = contactLookupKey;
@@ -72,6 +80,7 @@ public class Transaction {
                 ", amount=" + amount +
                 ", lent=" + lent +
                 ", timestamp=" + timestamp +
+                ", notes=" + notes +
                 '}';
     }
 }

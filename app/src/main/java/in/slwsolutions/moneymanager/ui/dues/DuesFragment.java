@@ -13,6 +13,7 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,10 +86,14 @@ public class DuesFragment extends Fragment {
 
     private void setupRecyclerview() {
         recyclerView = root.findViewById(R.id.transactions_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new DuesRecyclerViewAdapter(getContext());
         adapter.setTransactions(duesViewModel.getTransactions().getValue());
         recyclerView.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         adapter.setITemClickListener(
                 new DuesRecyclerViewAdapter.DuesRecyclerViewItemClickListener() {
@@ -99,12 +105,15 @@ public class DuesFragment extends Fragment {
                         intent.putExtra("contact_number", transaction.contactNumber);
                         intent.putExtra("contact_image_uri", transaction.contactImageURI);
 
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                getActivity(),
-                                profileImage,
-                                ViewCompat.getTransitionName(profileImage));
-
-                        startActivity(intent, options.toBundle());
+                        if (ViewCompat.getTransitionName(profileImage) != null){
+                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                    getActivity(),
+                                    profileImage,
+                                    ViewCompat.getTransitionName(profileImage));
+                            startActivity(intent, options.toBundle());
+                        } else {
+                            startActivity(intent);
+                        }
                     }
                 }
         );
@@ -160,6 +169,10 @@ public class DuesFragment extends Fragment {
                 photoUri,
                 Double.valueOf(amount.getEditText().getText().toString()),
                 lentChecked);
+
+        if (!TextUtils.isEmpty(notes.getEditText().getText())) {
+            t.setNotes(notes.getEditText().getText().toString());
+        }
 
         duesViewModel.insert(t);
     }
