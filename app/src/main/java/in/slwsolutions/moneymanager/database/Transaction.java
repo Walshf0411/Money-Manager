@@ -48,11 +48,19 @@ public class Transaction {
         this.notes = notes;
     }
 
-    public Transaction(String contactLookupKey, String contactName, String contactNumber, String contactImageURI, double amount, boolean lent) {
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Transaction(String contactLookupKey, String contactName, String contactNumber, String contactImageURI, double amount, boolean lent, Date timestamp) {
         this.contactLookupKey = contactLookupKey;
         this.contactName = contactName;
         this.contactNumber = contactNumber;
         this.contactImageURI = contactImageURI;
+        if (timestamp != null)
+            this.timestamp = timestamp;
+        else
+            this.timestamp = new Date();
 
         if (lent)
             this.amount = amount;
@@ -60,6 +68,9 @@ public class Transaction {
             this.amount = -amount;
 
         this.lent = lent;
+
+
+
     }
 
     @Ignore

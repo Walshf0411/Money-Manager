@@ -3,6 +3,7 @@ package in.slwsolutions.moneymanager.ui.dues;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,10 +14,10 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Switch;
 
@@ -35,6 +36,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import in.slwsolutions.moneymanager.R;
@@ -55,6 +60,8 @@ public class DuesFragment extends Fragment {
     private static final int SELECT_CONTACT = 9999;
     private String name, number = null, lookupKey, photoUri, hasPhoneNumber;
     private Switch lent;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+    Calendar myCalendar;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -105,7 +112,7 @@ public class DuesFragment extends Fragment {
                         intent.putExtra("contact_number", transaction.contactNumber);
                         intent.putExtra("contact_image_uri", transaction.contactImageURI);
 
-                        if (ViewCompat.getTransitionName(profileImage) != null){
+                        if (ViewCompat.getTransitionName(profileImage) != null) {
                             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                     getActivity(),
                                     profileImage,
@@ -117,6 +124,7 @@ public class DuesFragment extends Fragment {
                     }
                 }
         );
+        intializeDatePicker();
     }
 
     private void createAlertDialogForm() {
@@ -137,6 +145,14 @@ public class DuesFragment extends Fragment {
         lent = (Switch) alertDialogForm.findViewById(R.id.lent);
         amount = (TextInputLayout) alertDialogForm.findViewById(R.id.amount);
         date = (TextInputLayout) alertDialogForm.findViewById(R.id.date);
+        date.getEditText().setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDatePicker();
+                    }
+                }
+        );
         notes = (TextInputLayout) alertDialogForm.findViewById(R.id.notes);
 
         final AlertDialog dialog = new AlertDialog.Builder(getContext())
@@ -160,20 +176,65 @@ public class DuesFragment extends Fragment {
         );
     }
 
+    private void showDatePicker() {
+        new DatePickerDialog(getContext(),
+                dateSetListener, // DatePickerDialog Listener
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void intializeDatePicker() {
+         myCalendar = Calendar.getInstance(); // get the camera instance for the app
+
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // set the date to the calendar instance and then update the
+                // edit text holding the DatePicker toggle onclick
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                // set the date to the edit text and format it accordingly
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, YYYY");
+                DuesFragment.this.date.getEditText().setText(sdf.format(myCalendar.getTime()));
+            }
+        };
+
+    }
+
     private void addToDatabase() {
         boolean lentChecked = lent.isChecked();
+        Date date1 = null;
+        if (!TextUtils.isEmpty(date.getEditText().getText())) {
+            // Check if date input is empty
+            try {
+                // date input is not empty, so we take the string convert it to standard format
+                // and then set it to the transaction object
+
+                date1 = new SimpleDateFormat("dd-MM-YYY hh:mm").
+                        parse(date.getEditText().getText().toString());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         Transaction t = new Transaction(
                 lookupKey,
                 name,
                 number,
                 photoUri,
                 Double.valueOf(amount.getEditText().getText().toString()),
-                lentChecked);
+                lentChecked,
+                date1);
 
         if (!TextUtils.isEmpty(notes.getEditText().getText())) {
             t.setNotes(notes.getEditText().getText().toString());
         }
-
         duesViewModel.insert(t);
     }
 

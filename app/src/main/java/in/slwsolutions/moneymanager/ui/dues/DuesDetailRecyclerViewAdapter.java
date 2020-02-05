@@ -1,7 +1,5 @@
 package in.slwsolutions.moneymanager.ui.dues;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import in.slwsolutions.moneymanager.R;
@@ -21,6 +20,7 @@ public class DuesDetailRecyclerViewAdapter extends RecyclerView.Adapter<DuesDeta
 
     private List<Transaction> transactionList;
     private Context ctx;
+    private static final String DATE_FORMAT = "MMM dd, YYYY";
 
     public DuesDetailRecyclerViewAdapter(Context ctx, List<Transaction> transactionList) {
         this.ctx = ctx;
@@ -43,16 +43,21 @@ public class DuesDetailRecyclerViewAdapter extends RecyclerView.Adapter<DuesDeta
     public void onBindViewHolder(@NonNull final DuesDetailRecyclerViewHolder holder, int position) {
         if (transactionList != null) {
             final Transaction transaction = transactionList.get(position);
-            if (transaction.amount < 0) {
+            if (!transaction.lent) {
                 // The User is in due by the contact
-                holder.amount.setText("- " + ctx.getString(R.string.Rs) + String.valueOf(-transaction.amount));
+                holder.amount.setText("- " + ctx.getString(R.string.Rs) + String.valueOf(transaction.amount));
                 holder.amount.setTextColor(ctx.getResources().getColor(android.R.color.holo_red_light));
             } else {
                 // The User has money owed to the contact
                 holder.amount.setText("+" + ctx.getString(R.string.Rs) + String.valueOf(transaction.amount));
                 holder.amount.setTextColor(ctx.getResources().getColor(android.R.color.holo_green_light));
             }
-            holder.date.setText(String.valueOf(transaction.timestamp));
+
+            // null check on the date does not have to be done
+            // because if the user does not select a date the current date is
+            // linked to the object
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+            holder.date.setText(dateFormat.format(transaction.timestamp));
 
             if (transaction.notes != null) {
                 holder.notes.setText(transaction.notes);
@@ -63,32 +68,13 @@ public class DuesDetailRecyclerViewAdapter extends RecyclerView.Adapter<DuesDeta
                         public void onClick(View view) {
                             if (transaction.notes != null) {
                                 if (holder.notes.getVisibility() == View.GONE) {
-                                    holder.notes.animate()
-                                            .translationY(holder.notes.getHeight())
-                                            .setDuration(300)
-                                            .setListener(new AnimatorListenerAdapter() {
-                                                @Override
-                                                public void onAnimationEnd(Animator animator) {
-                                                    super.onAnimationEnd(animator);
-                                                    holder.notes.setVisibility(View.VISIBLE);
-                                                }
-                                            });
+                                    holder.notes.setVisibility(View.VISIBLE);
                                 } else if (holder.notes.getVisibility() == View.VISIBLE) {
-                                    holder.notes.animate()
-                                            .translationY(0)
-                                            .setDuration(300)
-                                            .setListener(new AnimatorListenerAdapter() {
-                                                @Override
-                                                public void onAnimationEnd(Animator animator) {
-                                                    super.onAnimationEnd(animator);
-                                                    holder.notes.setVisibility(View.GONE);
-                                                }
-                                            });
+                                    holder.notes.setVisibility(View.GONE);
                                 }
                                 return;
                             }
                             Toast.makeText(ctx, "No notes associated with due", Toast.LENGTH_SHORT).show();
-
                         }
                     }
             );

@@ -13,20 +13,27 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
 
+import in.slwsolutions.moneymanager.MainActivity;
 import in.slwsolutions.moneymanager.R;
 import in.slwsolutions.moneymanager.database.Transaction;
 import in.slwsolutions.moneymanager.repositories.TransactionRepository;
@@ -109,10 +116,47 @@ public class DueDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == android.R.id.home) {
-            finishActivity(0);
-            return true;
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finishActivity(0);
+                return true;
+
+            case R.id.delete_due:
+                deleteDue();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteDue() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("This due is be deleted");
+        progressDialog.show();
+
+        class DeleteDuesTask extends AsyncTask<String, Void, Void> {
+
+            @Override
+            protected Void doInBackground(String... strings) {
+                repo.deleteDuesByContactKey(strings[0]);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                progressDialog.dismiss();
+                Intent revIntent = new Intent(DueDetailActivity.this, MainActivity.class);
+                revIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(revIntent);
+            }
+        }
+
+        new DeleteDuesTask().execute(intent.getStringExtra("contact_lookup_key"));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.due_detail_menu, menu);
+        return true;
     }
 }

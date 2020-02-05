@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/delete_due"
+        android:icon="@drawable/ic_delete_due"
+        android:title="@string/due_delete_label"
+        android:visible="@bool/enable_system_job_service_default"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -41,6 +41,14 @@ public class TransactionRepository {
         });
     }
 
+    public void deleteDuesByContactKey(final String contactKey) {
+        Database.databaseWriteExecutor.execute(new Runnable(){
+            public void run() {
+                transactionDao.deleteDuesByContactKey(contactKey);
+            }
+        });
+    }
+
     public void deleteAll() {
         Database.databaseWriteExecutor.execute(new Runnable(){
             public void run() {

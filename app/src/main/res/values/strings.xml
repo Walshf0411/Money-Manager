@@ -30,4 +30,6 @@
     <string name="amount_less_than_zero_error">Amount should be greater than zero</string>
 
     <string name="Rs">\u20B9</string>
+
+    <string name="due_delete_label">Delete due</string>
 </resources>

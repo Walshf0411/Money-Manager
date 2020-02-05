@@ -23,6 +23,9 @@ public interface TransactionDao {
     @Query("DELETE FROM `transaction`")
     void deleteAll();
 
+    @Query("DELETE FROM `transaction` WHERE contactLookupKey=:contactKey")
+    void deleteDuesByContactKey(String contactKey);
+
     @Query("SELECT * FROM `transaction` WHERE contactLookupKey=:key ORDER BY timestamp DESC")
     List<Transaction> getTransactionsByLookupKey(String key);
 }
