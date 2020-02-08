@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:orientation="vertical"
     android:animateLayoutChanges="true"
-    tools:context=".ui.dues.DueDetailActivity">
+    tools:context=".ui.dues.due_detail.DueDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

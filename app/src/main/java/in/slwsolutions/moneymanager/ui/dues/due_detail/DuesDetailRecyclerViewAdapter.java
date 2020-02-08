@@ -1,4 +1,4 @@
-package in.slwsolutions.moneymanager.ui.dues;
+package in.slwsolutions.moneymanager.ui.dues.due_detail;
 
 import android.content.Context;
 import android.view.LayoutInflater;

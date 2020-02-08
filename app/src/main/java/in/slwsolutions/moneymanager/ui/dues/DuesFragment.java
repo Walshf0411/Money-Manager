@@ -44,6 +44,7 @@ import java.util.List;
 
 import in.slwsolutions.moneymanager.R;
 import in.slwsolutions.moneymanager.database.Transaction;
+import in.slwsolutions.moneymanager.ui.dues.due_detail.DueDetailActivity;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -107,10 +108,8 @@ public class DuesFragment extends Fragment {
                     @Override
                     public void onClick(int position, Transaction transaction, ImageView profileImage) {
                         Intent intent = new Intent(getContext(), DueDetailActivity.class);
-                        intent.putExtra("contact_lookup_key", transaction.contactLookupKey);
-                        intent.putExtra("contact_name", transaction.contactName);
-                        intent.putExtra("contact_number", transaction.contactNumber);
-                        intent.putExtra("contact_image_uri", transaction.contactImageURI);
+
+                        intent.putExtra("transaction", transaction);
 
                         if (ViewCompat.getTransitionName(profileImage) != null) {
                             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
