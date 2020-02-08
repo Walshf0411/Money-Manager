@@ -2,6 +2,7 @@ package in.slwsolutions.moneymanager.ui.dues.due_detail;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,11 +51,18 @@ public class DueDetailActivity extends AppCompatActivity {
         }
 
         duesDetailViewModel = ViewModelProviders.of(this).get(DuesDetailViewModel.class);
+        duesDetailViewModel.setContactLookupKey(transaction.contactLookupKey);
         adapter = new DuesDetailRecyclerViewAdapter(this, null);
 
         initializeComponents();
         initializeRecyclerView();
-        populateRecyclerView();
+
+        duesDetailViewModel.contactTransactions.observe(this, new Observer<List<Transaction>>() {
+            @Override
+            public void onChanged(List<Transaction> transactions) {
+                adapter.setTransactionList(transactions);
+            }
+        });
     }
 
     private void initializeComponents() {
@@ -84,23 +92,23 @@ public class DueDetailActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private void populateRecyclerView() {
-
-        class GetAllTransactions extends AsyncTask<String, Void, List<Transaction>> {
-            protected List<Transaction> doInBackground(String... urls) {
-                return duesDetailViewModel.transactionRepo.getTransactionsByKey(urls[0]);
-            }
-
-            protected void onProgressUpdate(Void... progress) {
-
-            }
-
-            protected void onPostExecute(List<Transaction> transactions) {
-                adapter.setTransactionList(transactions);
-            }
-        }
-        new GetAllTransactions().execute(transaction.contactLookupKey);
-    }
+//    private void populateRecyclerView() {
+//
+//        class GetAllTransactions extends AsyncTask<String, Void, List<Transaction>> {
+//            protected List<Transaction> doInBackground(String... urls) {
+//                return duesDetailViewModel.transactionRepo.getTransactionsByKey(urls[0]);
+//            }
+//
+//            protected void onProgressUpdate(Void... progress) {
+//
+//            }
+//
+//            protected void onPostExecute(List<Transaction> transactions) {
+//                adapter.setTransactionList(transactions);
+//            }
+//        }
+//        new GetAllTransactions().execute(transaction.contactLookupKey);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

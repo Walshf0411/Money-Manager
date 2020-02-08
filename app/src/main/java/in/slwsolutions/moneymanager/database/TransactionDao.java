@@ -16,7 +16,7 @@ public interface TransactionDao {
     void insertAll(Transaction... transactions);
 
     @Query("SELECT id, contactLookupKey, contactName, contactNumber, " +
-            "contactImageURI, amount, lent, timestamp, sum(amount)" +
+            "contactImageURI, amount, lent, timestamp, notes, sum(amount)" +
             "FROM `transaction` GROUP BY contactLookupKey")
     LiveData<List<Transaction>> getAllTransactions();
 
@@ -27,5 +27,5 @@ public interface TransactionDao {
     void deleteDuesByContactKey(String contactKey);
 
     @Query("SELECT * FROM `transaction` WHERE contactLookupKey=:key ORDER BY timestamp DESC")
-    List<Transaction> getTransactionsByLookupKey(String key);
+    LiveData<List<Transaction>> getTransactionsByLookupKey(String key);
 }

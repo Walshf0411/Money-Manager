@@ -36,7 +36,7 @@ public class DuesViewModel extends AndroidViewModel {
         transactionRepository.deleteAll();
     }
 
-    public List<Transaction> getTransactionsByKey(String key) {
+    public LiveData<List<Transaction>> getTransactionsByKey(String key) {
         return transactionRepository.getTransactionsByKey(key);
     }
 }
