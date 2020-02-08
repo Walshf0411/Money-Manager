@@ -2,6 +2,7 @@ package in.slwsolutions.moneymanager.ui.dues.due_detail;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,8 +34,8 @@ public class DueDetailActivity extends AppCompatActivity {
     private ImageView profileImage;
     private RecyclerView recyclerView;
     private Transaction transaction;
-    private TransactionRepository repo;
     private DuesDetailRecyclerViewAdapter adapter;
+    private DuesDetailViewModel duesDetailViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class DueDetailActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+        duesDetailViewModel = ViewModelProviders.of(this).get(DuesDetailViewModel.class);
         adapter = new DuesDetailRecyclerViewAdapter(this, null);
 
         initializeComponents();
@@ -83,11 +85,10 @@ public class DueDetailActivity extends AppCompatActivity {
     }
 
     private void populateRecyclerView() {
-        repo = new TransactionRepository(this);
 
         class GetAllTransactions extends AsyncTask<String, Void, List<Transaction>> {
             protected List<Transaction> doInBackground(String... urls) {
-                return repo.getTransactionsByKey(urls[0]);
+                return duesDetailViewModel.transactionRepo.getTransactionsByKey(urls[0]);
             }
 
             protected void onProgressUpdate(Void... progress) {
@@ -125,7 +126,7 @@ public class DueDetailActivity extends AppCompatActivity {
 
             @Override
             protected Void doInBackground(String... strings) {
-                repo.deleteDuesByContactKey(strings[0]);
+                duesDetailViewModel.transactionRepo.deleteDuesByContactKey(strings[0]);
                 return null;
             }
 
