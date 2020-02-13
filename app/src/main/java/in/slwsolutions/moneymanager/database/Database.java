@@ -9,7 +9,9 @@ import androidx.room.TypeConverters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@androidx.room.Database(entities = {Transaction.class}, version = 13)
+import in.slwsolutions.moneymanager.dao.TransactionDao;
+
+@androidx.room.Database(entities = {Transaction.class, Expense.class}, version = 13)
 @TypeConverters({DateConverter.class})
 public abstract class Database extends RoomDatabase {
     public abstract TransactionDao transactionDao();
