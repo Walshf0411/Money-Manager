@@ -9,12 +9,14 @@ import androidx.room.TypeConverters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import in.slwsolutions.moneymanager.dao.ExpenseDao;
 import in.slwsolutions.moneymanager.dao.TransactionDao;
 
-@androidx.room.Database(entities = {Transaction.class, Expense.class}, version = 13)
+@androidx.room.Database(entities = {Transaction.class, Expense.class}, version = 14)
 @TypeConverters({DateConverter.class})
 public abstract class Database extends RoomDatabase {
     public abstract TransactionDao transactionDao();
+    public abstract ExpenseDao expenseDao();
 
     private static volatile Database INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

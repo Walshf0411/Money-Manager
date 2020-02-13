@@ -21,6 +21,9 @@ public interface ExpenseDao {
     @Query("DELETE FROM Expense")
     void deleteAll();
 
-    @Query("SELECT * FROM expense WHERE timestamp = :date")
+    @Query("SELECT * FROM expense WHERE timestamp BETWEEN :start AND :end")
     LiveData<Expense> getExpenses(Date start, Date end);
+
+    @Query("SELECT * FROM expense")
+    LiveData<Expense> getAllExpense();
 }

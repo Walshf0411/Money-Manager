@@ -1,9 +1,22 @@
 package in.slwsolutions.moneymanager.ui.expenses;
 
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-public class ExpensesViewModel extends ViewModel {
+import androidx.lifecycle.AndroidViewModel;
 
-    public ExpensesViewModel() {
+import in.slwsolutions.moneymanager.database.Expense;
+import in.slwsolutions.moneymanager.repositories.ExpenseRepository;
+
+public class ExpensesViewModel extends AndroidViewModel {
+
+    private ExpenseRepository expenseRepository;
+
+    public ExpensesViewModel(Application application) {
+        super(application);
+        expenseRepository = new ExpenseRepository(application);
+    }
+
+    public void addNewExpense(Expense expense) {
+        expenseRepository.addNewExpense(expense);
     }
 }

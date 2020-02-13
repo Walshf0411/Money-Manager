@@ -161,6 +161,8 @@ public class DuesFragment extends Fragment {
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
 
+        // get the positive button of the alert dialog and add onclick listener
+        // this onclick listener should only be attached after show is called on the alert dialog builder.
         Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         button.setOnClickListener(new View.OnClickListener() {
                                       @Override

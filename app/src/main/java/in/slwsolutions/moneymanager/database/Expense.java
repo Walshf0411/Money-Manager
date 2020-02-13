@@ -15,4 +15,10 @@ public class Expense {
     public String notes;
 
     public Date timestamp;
+
+    public Expense(double amount, String notes, Date timestamp) {
+        this.amount = amount;
+        this.notes = notes;
+        this.timestamp = timestamp;
+    }
 }
