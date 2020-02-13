@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import java.util.Date;
+import java.util.List;
 
 import in.slwsolutions.moneymanager.database.Expense;
 
@@ -25,5 +26,5 @@ public interface ExpenseDao {
     LiveData<Expense> getExpenses(Date start, Date end);
 
     @Query("SELECT * FROM expense")
-    LiveData<Expense> getAllExpense();
+    LiveData<List<Expense>> getAllExpense();
 }

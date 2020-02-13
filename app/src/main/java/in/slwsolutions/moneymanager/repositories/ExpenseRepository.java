@@ -4,13 +4,15 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 import in.slwsolutions.moneymanager.dao.ExpenseDao;
 import in.slwsolutions.moneymanager.database.Database;
 import in.slwsolutions.moneymanager.database.Expense;
 
 public class ExpenseRepository {
     private Context context;
-    private LiveData<Expense> expenses;
+    private LiveData<List<Expense>> expenses;
     private ExpenseDao expenseDao;
 
     public ExpenseRepository(Context context) {
@@ -31,7 +33,7 @@ public class ExpenseRepository {
         );
     }
 
-    LiveData<Expense> getAllExpenses() {
+    public LiveData<List<Expense>> getAllExpenses() {
         return this.expenses;
     }
 

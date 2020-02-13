@@ -12,7 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import in.slwsolutions.moneymanager.R;
 import in.slwsolutions.moneymanager.database.Expense;
@@ -33,6 +39,7 @@ public class ExpensesFragment extends Fragment {
     private TextInputLayout notes, amount;
     private View root;
     private Date todaysDate;
+    private ExpensesRecyclerViewAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +54,23 @@ public class ExpensesFragment extends Fragment {
     }
 
     private void initializeRecyclerView() {
+        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        adapter = new ExpensesRecyclerViewAdapter(getContext(), null);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                linearLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        adapter.setExpenseList(expensesViewModel.getExpensesList().getValue());
+        recyclerView.setAdapter(adapter);
+
+        expensesViewModel.getExpensesList().observe(this, new Observer<List<Expense>>() {
+            @Override
+            public void onChanged(List<Expense> expenses) {
+                adapter.setExpenseList(expenses);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initializeComponents() {

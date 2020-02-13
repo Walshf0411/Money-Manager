@@ -95,7 +95,7 @@ public class DuesDetailRecyclerViewAdapter extends RecyclerView.Adapter<DuesDeta
             super(itemView);
             amount = (TextView) itemView.findViewById(R.id.amount);
             date = (TextView) itemView.findViewById(R.id.date);
-            notes = (TextView) itemView.findViewById(R.id.due_notes);
+            notes = (TextView) itemView.findViewById(R.id.expense_notes);
         }
     }
 }
