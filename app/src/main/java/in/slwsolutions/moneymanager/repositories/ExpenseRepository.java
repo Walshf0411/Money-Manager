@@ -1,9 +1,14 @@
 package in.slwsolutions.moneymanager.repositories;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import in.slwsolutions.moneymanager.dao.ExpenseDao;
@@ -37,4 +42,7 @@ public class ExpenseRepository {
         return this.expenses;
     }
 
+    public LiveData<List<Expense>> getExpensesBetweenDates(Date start, Date end){
+        return expenseDao.getExpenses(start, end);
+    }
 }

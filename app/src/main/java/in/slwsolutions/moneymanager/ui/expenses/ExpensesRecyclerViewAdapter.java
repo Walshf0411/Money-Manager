@@ -19,15 +19,15 @@ import in.slwsolutions.moneymanager.database.Expense;
 public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRecyclerViewAdapter.ExpensesRecyclerViewHolder> {
 
     Context context;
-    List<Expense> expenseList;
+    List<Expense> todaysExpenses;
 
-    public ExpensesRecyclerViewAdapter(Context context, List<Expense> expenseList) {
+    public ExpensesRecyclerViewAdapter(Context context, List<Expense> todaysExpenses) {
         this.context = context;
-        this.expenseList = expenseList;
+        this.todaysExpenses = todaysExpenses;
     }
 
-    public void setExpenseList(List<Expense> expenseList) {
-        this.expenseList = expenseList;
+    public void setTodaysExpenses(List<Expense> todaysExpenses) {
+        this.todaysExpenses = todaysExpenses;
     }
 
     @NonNull
@@ -39,7 +39,7 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
 
     @Override
     public void onBindViewHolder(@NonNull final ExpensesRecyclerViewAdapter.ExpensesRecyclerViewHolder holder, int position) {
-        Expense expense = expenseList.get(position);
+        Expense expense = todaysExpenses.get(position);
         holder.amount.setText(context.getString(R.string.Rs) + String.valueOf(expense.amount));
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
         holder.date.setText(dateFormat.format(expense.timestamp));
@@ -61,7 +61,7 @@ public class ExpensesRecyclerViewAdapter extends RecyclerView.Adapter<ExpensesRe
 
     @Override
     public int getItemCount() {
-        return expenseList == null? 0: expenseList.size();
+        return todaysExpenses == null? 0: todaysExpenses.size();
     }
 
     public class ExpensesRecyclerViewHolder extends RecyclerView.ViewHolder {
